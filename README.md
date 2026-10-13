@@ -1,0 +1,104 @@
+# Credit Markets and Structural Transformation — Quantitative Macroeconomics in MATLAB
+
+> Master's degree group project — *N.F. and co-authors*
+> All rights reserved. See `LICENSE` for details.
+
+---
+
+## Overview
+
+Two small quantitative models, solved and simulated in MATLAB:
+
+1. **Who sets the interest rate?** A two-period credit market with heterogeneous agents (lenders and borrowers). The equilibrium interest rate clears the market for savings, and we study how it reacts to patience, income today and income tomorrow, and to the mix of savers and borrowers in the economy.
+2. **One model, two countries.** A static model of sectoral composition with non-homothetic CES preferences, calibrated on **South Korea** (high income) and **Turkey** (upper-middle income) with World Bank employment shares in agriculture, industry and services. We compare the two economies at the same stage of development (Korea 1997 and Turkey 2025, about 15,800 USD per capita) and then feed the model the observed GDP per capita path, 1992–2025, to see how much of the structural transformation income growth alone can explain.
+
+---
+
+## Project Structure
+
+```
+.
+├── ex1a_credit_market_equilibrium.m              # 1(a) Equilibrium with one lender and one borrower
+├── ex1b_credit_market_experiments.m              # 1(b) Comparative statics, one characteristic at a time
+├── ex1c_credit_market_many_agents.m              # 1(c) Many agents and the share of lenders
+├── ex2a_static_calibration_korea_turkey.m        # 2(a) Static calibration: Korea 1997 vs Turkey 2025
+├── ex2b_structural_transformation_korea_turkey.m # 2(b) Dynamics: income follows GDP per capita in the data
+├── data_korea_turkey.xlsx                        # WDI data, 1992–2025
+└── solve_consumption_foc.p                       # Compiled helper: FOC system of the consumer (course material)
+```
+
+---
+
+## Exercise 1 — Credit market equilibrium
+
+Each agent lives two periods, receives incomes w1 and w2, and chooses how much to save at the interest rate r:
+
+$$
+\max_{c_1, c_2} \; \ln c_1 + \beta \ln c_2
+\quad \text{s.t.} \quad
+c_2 = w_2 + (1+r)(w_1 - c_1)
+$$
+
+Optimal saving is increasing in r:
+
+$$
+s_i(r) = \frac{\beta_i w_{1,i}}{1+\beta_i} - \frac{w_{2,i}}{(1+\beta_i)(1+r)}
+$$
+
+The market clears when total saving is zero, which gives a closed form for the equilibrium rate:
+
+$$
+1 + r^* = \frac{\sum_i N_i \, w_{2,i}/(1+\beta_i)}{\sum_i N_i \, \beta_i w_{1,i}/(1+\beta_i)}
+$$
+
+| Case | r* | Credit |
+|---|---|---|
+| Base case (β = 0.95 / 0.90, w1 = 15 / 10, w2 = 5 / 20) | 0.0868 | 4.95 |
+| Borrower more patient (β = 0.95) | 0.0526 | 4.87 |
+| Borrower richer today (w1 = 15) | −0.0918 | 4.48 |
+| Lender richer tomorrow (w2 = 15) | 0.5126 | 2.22 |
+
+With many agents, the level of r* depends only on the **share** of lenders, not on the size of the economy: moving the share of lenders from 10% to 90% lowers r* from about 0.95 to about −0.52.
+
+---
+
+## Exercise 2 — Sectoral composition in Korea and Turkey
+
+Preferences over agriculture, manufacturing and services are CES with non-homothetic terms (negative for the necessity, positive for the luxury):
+
+$$
+U = \left[ \sum_{i \in \{a,m,s\}} \omega_i^{1/\varepsilon} (c_i + \bar{c}_i)^{(\varepsilon-1)/\varepsilon} \right]^{\varepsilon/(\varepsilon-1)}
+$$
+
+The non-homothetic terms are common to the two countries (estimated on Korea, 1992–2025); the weights ω are calibrated so that the model matches each country exactly at the comparable stage:
+
+| | GDP per capita (2015 USD) | Agriculture | Industry | Services |
+|---|---|---|---|---|
+| Turkey 2025 | 15,883 | 14.2% | 27.3% | 58.5% |
+| Korea 1997 | 15,682 | 10.2% | 32.4% | 57.3% |
+
+In the dynamic part the model is solved year by year with `fsolve`, with income equal to observed GDP per capita, and the simulated shares are compared with the data.
+
+---
+
+## Data
+
+World Bank, *World Development Indicators* (CC BY 4.0): `NY.GDP.PCAP.KD` (GDP per capita, constant 2015 USD) and `SL.AGR.EMPL.ZS`, `SL.IND.EMPL.ZS`, `SL.SRV.EMPL.ZS` (employment shares, modeled ILO estimates).
+
+---
+
+## Requirements
+
+- MATLAB R2020a or later, with the Optimization Toolbox (`fsolve`)
+- `solve_consumption_foc.p` must stay in the same folder as the Exercise 2 scripts: it is a pre-compiled helper provided with the course and cannot be inspected
+
+## Usage
+
+Each script is self-contained: open the repository folder in MATLAB and run any `ex*.m` file. In `ex1b_credit_market_experiments.m` choose the experiment at the top of the script.
+
+---
+
+## License
+
+This project is protected by copyright. See the [`LICENSE`](LICENSE) file for full terms.
+**Reusing, copying, modifying, or redistributing** the code without explicit written permission from the authors is not permitted.
