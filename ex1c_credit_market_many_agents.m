@@ -45,10 +45,8 @@ s_lender_vec = a(1) - b(1)./(1 + r_vec);
 credit_tot_500_vec  = (theta .* 500)  .* s_lender_vec;
 credit_tot_1000_vec = (theta .* 1000) .* s_lender_vec;
 
-% Grafico di confronto N = 500 vs N = 1000
 figure;
-
-% Subplot 1: Tasso di interesse di equilibrio
+% Subplot 1: Interest rate of equilibrium 
 subplot(1, 3, 1);
 plot(share_lenders, r_vec, 'b-',  'LineWidth', 2.5, 'DisplayName', 'N = 500');
 hold on;
@@ -61,7 +59,7 @@ title('Equilibrium interest rate');
 legend('Location', 'northeast'); 
 grid on;
 
-% Subplot 2: Quantità totale di credito
+% Subplot 2: Total quantity of credit
 subplot(1, 3, 2);
 plot(share_lenders, credit_tot_500_vec,  'b-', 'LineWidth', 2, 'DisplayName', 'N = 500');
 hold on;
@@ -74,9 +72,9 @@ title('Quantity of credit');
 legend('Location', 'northwest'); 
 grid on;
 
-sgtitle('Sensitivity to the share of lenders: N = 500 vs N = 1000');
+sgtitle('N = 500 vs N = 1000');
 
-% Calcolo del credito per agente lungo la griglia
+% Calculation of credit per agent
 credit_per_agent_500_vec  = credit_tot_500_vec  / 500;
 credit_per_agent_1000_vec = credit_tot_1000_vec / 1000;
 

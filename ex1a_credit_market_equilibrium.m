@@ -1,5 +1,4 @@
 % Exercise 1 (a) - agent 1 lender, agent 2 borrower
-clear; close all; clc;
 
 beta = [0.95; 0.90];
 w1   = [15; 10];
