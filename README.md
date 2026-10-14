@@ -18,18 +18,20 @@ Two small quantitative models, solved and simulated in MATLAB:
 
 ```
 .
-├── ex1a_credit_market_equilibrium.m              # 1(a) Equilibrium with one lender and one borrower
-├── ex1b_credit_market_experiments.m              # 1(b) Comparative statics, one characteristic at a time
-├── ex1c_credit_market_many_agents.m              # 1(c) Many agents and the share of lenders
-├── ex2a_static_calibration_korea_turkey.m        # 2(a) Static calibration: Korea 1997 vs Turkey 2025
-├── ex2b_structural_transformation_korea_turkey.m # 2(b) Dynamics: income follows GDP per capita in the data
-├── data_korea_turkey.xlsx                        # WDI data, 1992–2025
-└── solve_consumption_foc.p                       # Compiled helper: FOC system of the consumer (course material)
+├── a1_credit_market_equilibrium.m              # Equilibrium with one lender and one borrower
+├── a2_credit_market_experiments.m              # One experiment at a time vs the base case
+├── a3_credit_market_many_agents.m              # Many agents and the share of lenders
+├── b1_static_calibration_korea_turkey.m        # Static calibration: Korea 1997 vs Turkey 2025
+├── b2_structural_transformation_korea_turkey.m # Dynamics: income follows GDP per capita in the data
+├── data_korea_turkey.xlsx                      # WDI data, 1992–2025
+└── solve_consumption_foc.p                     # Compiled helper: FOC system of the consumer (course material)
 ```
+
+Scripts starting with `a` belong to Part A (credit market), scripts starting with `b` to Part B (structural transformation).
 
 ---
 
-## Exercise 1 — Credit market equilibrium
+## Part A — Credit market equilibrium
 
 Each agent lives two periods, receives incomes w1 and w2, and chooses how much to save at the interest rate r:
 
@@ -51,18 +53,21 @@ $$
 1 + r^* = \frac{\sum_i N_i \, w_{2,i}/(1+\beta_i)}{\sum_i N_i \, \beta_i w_{1,i}/(1+\beta_i)}
 $$
 
-| Case | r* | Credit |
+Base case (lender / borrower: β = 0.95 / 0.90, w1 = 15 / 10, w2 = 5 / 20): r* = 0.0868, credit = 4.95.
+
+`a2_credit_market_experiments.m` changes one characteristic at a time (set `experiment` to 1, 2 or 3 at the top of the script) and plots supply and demand of credit against the base case:
+
+| Experiment | r* | Credit |
 |---|---|---|
-| Base case (β = 0.95 / 0.90, w1 = 15 / 10, w2 = 5 / 20) | 0.0868 | 4.95 |
-| Borrower more patient (β = 0.95) | 0.0526 | 4.87 |
-| Borrower richer today (w1 = 15) | −0.0918 | 4.48 |
-| Lender richer tomorrow (w2 = 15) | 0.5126 | 2.22 |
+| 1. Borrower more patient (β = 0.95) | 0.0526 | 4.87 |
+| 2. Borrower richer today (w1 = 15) | −0.0918 | 4.48 |
+| 3. Lender richer tomorrow (w2 = 15) | 0.5126 | 2.22 |
 
 With many agents, the level of r* depends only on the **share** of lenders, not on the size of the economy: moving the share of lenders from 10% to 90% lowers r* from about 0.95 to about −0.52.
 
 ---
 
-## Exercise 2 — Sectoral composition in Korea and Turkey
+## Part B — Sectoral composition in Korea and Turkey
 
 Preferences over agriculture, manufacturing and services are CES with non-homothetic terms (negative for the necessity, positive for the luxury):
 
@@ -90,11 +95,11 @@ World Bank, *World Development Indicators* (CC BY 4.0): `NY.GDP.PCAP.KD` (GDP pe
 ## Requirements
 
 - MATLAB R2020a or later, with the Optimization Toolbox (`fsolve`)
-- `solve_consumption_foc.p` must stay in the same folder as the Exercise 2 scripts: it is a pre-compiled helper provided with the course and cannot be inspected
+- `solve_consumption_foc.p` must stay in the same folder as the Part B scripts: it is a pre-compiled helper provided with the course and cannot be inspected
 
 ## Usage
 
-Each script is self-contained: open the repository folder in MATLAB and run any `ex*.m` file. In `ex1b_credit_market_experiments.m` choose the experiment at the top of the script.
+Each script is self-contained: open the repository folder in MATLAB and run any `.m` file. In `a2_credit_market_experiments.m` choose the experiment at the top of the script.
 
 ---
 
