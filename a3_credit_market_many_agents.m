@@ -33,15 +33,13 @@ credit_per_agent_1000  = credit_total_1000/sum(n_1000);
 fprintf('N = 1000: r* = %.4f, credit per lender = %.4f, per agent = %.4f, total credit = %.2f\n', ...
         r_1000, credit_per_lender_1000, credit_per_agent_1000, credit_total_1000);
 
-share_lenders = linspace(10, 90, 100);             % Quota creditori in % (10% - 90%)
-theta = share_lenders / 100;                       % Quota in frazione
+share_lenders = linspace(10, 90, 100);             
+theta = share_lenders / 100;                       
 
 r_vec = (theta.*b(1) + (1-theta).*b(2)) ./ (theta.*a(1) + (1-theta).*a(2)) - 1;
 
-% Risparmio individuale del prestatore lungo la curva
 s_lender_vec = a(1) - b(1)./(1 + r_vec);
 
-% Volume totale di credito scambiato (N_lenders * risparmio individuale)
 credit_tot_500_vec  = (theta .* 500)  .* s_lender_vec;
 credit_tot_1000_vec = (theta .* 1000) .* s_lender_vec;
 
@@ -71,8 +69,6 @@ ylabel('Total credit');
 title('Quantity of credit');
 legend('Location', 'northwest'); 
 grid on;
-
-sgtitle('N = 500 vs N = 1000');
 
 % Calculation of credit per agent
 credit_per_agent_500_vec  = credit_tot_500_vec  / 500;
