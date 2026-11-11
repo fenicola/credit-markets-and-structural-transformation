@@ -12,6 +12,8 @@ Two small quantitative models, solved and simulated in MATLAB:
 1. **Who sets the interest rate?** A two-period credit market with heterogeneous agents (lenders and borrowers). The equilibrium interest rate clears the market for savings, and we study how it reacts to patience, income today and income tomorrow, and to the mix of savers and borrowers in the economy.
 2. **One model, two countries.** A static model of sectoral composition with non-homothetic CES preferences, calibrated on **South Korea** (high income) and **Turkey** (upper-middle income) with World Bank employment shares in agriculture, industry and services. We compare the two economies at the same stage of development (Korea 1997 and Turkey 2025, about 15,800 USD per capita) and then feed the model the observed GDP per capita path, 1992–2025, to see how much of the structural transformation income growth alone can explain.
 
+The full write-up, with derivations and discussion, is in [`report/problem_set_1_report.pdf`](report/problem_set_1_report.pdf). In the report the scripts keep their original names: `ex1a`–`ex1c` = `a1`–`a3`, `ex2a`–`ex2b` = `b1`–`b2`.
+
 ---
 
 ## Project Structure
@@ -23,6 +25,8 @@ Two small quantitative models, solved and simulated in MATLAB:
 ├── a3_credit_market_many_agents.m              # Many agents and the share of lenders
 ├── b1_static_calibration_korea_turkey.m        # Static calibration: Korea 1997 vs Turkey 2025
 ├── b2_structural_transformation_korea_turkey.m # Dynamics: income follows GDP per capita in the data
+├── report/problem_set_1_report.pdf             # Full report (21 pages, authors as initials)
+├── figures/                                    # Figures used in this README
 ├── data_korea_turkey.xlsx                      # WDI data, 1992–2025
 └── solve_consumption_foc.p                     # Compiled helper: FOC system of the consumer (course material)
 ```
@@ -52,6 +56,8 @@ The market clears when total saving is zero, which gives a closed form for the e
 $$
 1 + r^* = \frac{\sum_i N_i \, w_{2,i}/(1+\beta_i)}{\sum_i N_i \, \beta_i w_{1,i}/(1+\beta_i)}
 $$
+
+![Credit market equilibrium](figures/credit_market_equilibrium.png)
 
 Base case (lender / borrower: β = 0.95 / 0.90, w1 = 15 / 10, w2 = 5 / 20): r* = 0.0868, credit = 4.95.
 
@@ -83,6 +89,8 @@ The non-homothetic terms are common to the two countries (estimated on Korea, 19
 | Korea 1997 | 15,682 | 10.2% | 32.4% | 57.3% |
 
 In the dynamic part the model is solved year by year with `fsolve`, with income equal to observed GDP per capita, and the simulated shares are compared with the data.
+
+![Korea: model vs data](figures/korea_model_vs_data.png)
 
 ---
 
